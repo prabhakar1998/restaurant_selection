@@ -1,8 +1,8 @@
 build:
-	docker-compose -p restaurant_selection up -d --build --remove-orphans
+	docker-compose -p restaurantselection up -d --build --remove-orphans
 
 container:
-	docker exec -it restaurant_selection_app_1 bash
+	docker exec -it restaurantselection bash
 
 test:
 	DJANGO_SETTINGS_MODULE=settings.test_settings pytest -v api/tests
