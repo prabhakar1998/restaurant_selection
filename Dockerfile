@@ -4,8 +4,9 @@ ENV PYTHONUNBUFFERED 1
 
 ENV DJANGO_SETTINGS_MODULE=settings.settings_dev
 ENV DJANGO_SECRET="dsnjkcdslcndscjkejerbjrebgerhgberincdsnc21e1232"
+ENV DB_HOST=db
 ENV POSTGRES_DB=app
-ENV POSTGRES_USER=postgres
+ENV POSTGRES_USER=postgres_user
 ENV POSTGRES_PASSWORD=supersecretpassword
 
 RUN mkdir /app

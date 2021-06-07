@@ -1,5 +1,5 @@
 build:
-	docker-compose up -d --build --remove-orphans
+	docker-compose -p restaurant_selection up -d --build --remove-orphans
 
 container:
 	docker exec -it restaurant_selection_app_1 bash
