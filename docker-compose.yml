@@ -17,8 +17,8 @@ services:
       - .:/app
     environment:
       - DB_HOST=db
-      - POSTGRES_DB=postgres
+      - POSTGRES_DB=app
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_PASSWORD=supersecretpassword
     depends_on:
-      - db            
+      - db
