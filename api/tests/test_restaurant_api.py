@@ -42,6 +42,13 @@ class RestaurantsAPITests(APITestCase):
             },
         }
 
+        self.restaurant_created = {
+            "pk": 2,
+            "restaurant_name": "restaurant2",
+            "username": "testrestaurant2",
+            "email": "restaurant2@example.com",
+        }
+
         self.restaurant_patch_data = {
             "pk": 1,
             "restaurant_name": "restaurant1",
@@ -64,6 +71,7 @@ class RestaurantsAPITests(APITestCase):
         url = reverse("restaurant-list")
         resp = self.client.post(url, self.new_restaurant_data, format="json")
         self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(self.restaurant_created, resp.json())
 
     def test_get_restaurant_detail(self):
         url = reverse(

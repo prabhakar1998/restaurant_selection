@@ -103,7 +103,11 @@ class RestaurantMenuAPITests(APITestCase):
         self.client.force_authenticate(self.restaurant_user)
         url = reverse("menu-list")
         resp = self.client.post(url, self.new_menu_data, format="json")
+        date_posted = str(datetime.date.today())
+        self.new_menu_data["id"] = 3
+        self.new_menu_data["date_posted"] = date_posted
         self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(self.new_menu_data, resp.json())
 
     def test_get_menu_detail(self):
         self.client.force_authenticate(self.admin_user)
@@ -120,7 +124,7 @@ class RestaurantMenuAPITests(APITestCase):
         self.assertEqual(self.menu2_updated_data, resp.json())
 
     def test_delete_menu(self):
-        # only admin can delete employee data
+        # only admin can delete menu data
         self.client.force_authenticate(self.admin_user)
         url = reverse("menu-detail", kwargs={"pk": self.menu1.id})
         resp = self.client.delete(url)

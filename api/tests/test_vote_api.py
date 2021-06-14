@@ -93,6 +93,14 @@ class VoteAPITests(APITestCase):
             "menu": 1,
         }
 
+        self.vote_created = {
+            "pk": 2,
+            "restaurant": 1,
+            "employee": 1,
+            "date_voted": date_voted,
+            "menu": 1,
+        }
+
     def test_get_votes_list(self, *args):
         # only employee or admin can fetch all votes
         self.client.force_authenticate(self.employee_user)
@@ -107,6 +115,7 @@ class VoteAPITests(APITestCase):
         url = reverse("vote-list")
         resp = self.client.post(url, self.new_vote_emp1, format="json")
         self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(self.vote_created, resp.json())
 
     def test_get_vote_detail(self):
         self.client.force_authenticate(self.employee_user)

@@ -7,19 +7,12 @@ from rest_framework.permissions import AllowAny
 
 from api.filters import MenuFilter, VoteFilter
 from api.models import Employee, Menu, Restaurant, Vote
-from api.permissions import (
-    EmployeeViewSetPermission,
-    IsEmployeeUserOrAdmin,
-    MenuViewSetPermission,
-    RestaurantViewSetPermission,
-)
-from api.serializers import (
-    EmployeeProfileSerializer,
-    MenuSerializer,
-    RestaurantProfileSerializer,
-    VoteSerializer,
-    WinnerSerializer,
-)
+from api.permissions import (EmployeeViewSetPermission, IsEmployeeUserOrAdmin,
+                             MenuViewSetPermission,
+                             RestaurantViewSetPermission)
+from api.serializers import (EmployeeProfileSerializer, MenuSerializer,
+                             RestaurantProfileSerializer, VoteSerializer,
+                             WinnerSerializer)
 
 logger = logging.getLogger(__name__)
 

@@ -44,6 +44,15 @@ class EmployeesAPITests(APITestCase):
             },
         }
 
+        self.employee_created_data = {
+            "pk": 2,
+            "department": "Accounts",
+            "username": "testemployee2",
+            "email": "employee2@example.com",
+            "first_name": "another",
+            "last_name": "user",
+        }
+
         self.employee_patch_data = {
             "pk": 1,
             "department": "Tech",
@@ -68,7 +77,9 @@ class EmployeesAPITests(APITestCase):
     def test_create_employee(self):
         url = reverse("employee-list")
         resp = self.client.post(url, self.new_employee_data, format="json")
+        print(resp.json())
         self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(self.employee_created_data, resp.json())
 
     def test_get_employee_detail(self):
         url = reverse(
