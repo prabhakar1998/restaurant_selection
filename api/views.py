@@ -7,11 +7,19 @@ from rest_framework.permissions import AllowAny
 
 from api.filters import MenuFilter, VoteFilter
 from api.models import Employee, Menu, Restaurant, Vote
-from api.permissions import (IsAdminUser, IsEmployeeUserOrAdmin,
-                             IsLoggedInUserOrAdmin, IsRestarauntUserOrAdmin)
-from api.serializers import (EmployeeProfileSerializer, MenuSerializer,
-                             RestaurantProfileSerializer, VoteSerializer,
-                             WinnerSerializer)
+from api.permissions import (
+    EmployeeViewSetPermission,
+    IsEmployeeUserOrAdmin,
+    MenuViewSetPermission,
+    RestaurantViewSetPermission,
+)
+from api.serializers import (
+    EmployeeProfileSerializer,
+    MenuSerializer,
+    RestaurantProfileSerializer,
+    VoteSerializer,
+    WinnerSerializer,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -19,20 +27,7 @@ logger = logging.getLogger(__name__)
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeProfileSerializer
-
-    def get_permissions(self):
-        permission_classes = []
-        if self.action == "create":
-            permission_classes = [AllowAny]
-        elif (
-            self.action == "retrieve"
-            or self.action == "update"
-            or self.action == "partial_update"
-        ):
-            permission_classes = [IsEmployeeUserOrAdmin]
-        elif self.action == "list" or self.action == "destroy":
-            permission_classes = [IsAdminUser]
-        return [permission() for permission in permission_classes]
+    permission_classes = [EmployeeViewSetPermission]
 
     def list(self, request, *args, **kwargs):
         logger.info(
@@ -69,20 +64,7 @@ class EmployeeViewSet(viewsets.ModelViewSet):
 class RestaurantViewSet(viewsets.ModelViewSet):
     queryset = Restaurant.objects.all()
     serializer_class = RestaurantProfileSerializer
-
-    def get_permissions(self):
-        permission_classes = []
-        if self.action == "create":
-            permission_classes = [AllowAny]
-        elif (
-            self.action == "update"
-            or self.action == "partial_update"
-            or self.action == "destroy"
-        ):
-            permission_classes = [IsRestarauntUserOrAdmin]
-        elif self.action == "retrieve" or self.action == "list":
-            permission_classes = [IsLoggedInUserOrAdmin]
-        return [permission() for permission in permission_classes]
+    permission_classes = [RestaurantViewSetPermission]
 
     def list(self, request, *args, **kwargs):
         logger.info(
@@ -120,18 +102,7 @@ class MenuViewSet(viewsets.ModelViewSet):
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer
     filterset_class = MenuFilter
-
-    def get_permissions(self):
-        permission_classes = []
-        if self.action == "create":
-            permission_classes = [IsRestarauntUserOrAdmin]
-        elif self.action == "list":
-            permission_classes = [IsEmployeeUserOrAdmin]
-        elif self.action == "partial_update" or self.action == "destroy":
-            permission_classes = [IsAdminUser]
-        elif self.action == "retrieve":
-            permission_classes = [IsLoggedInUserOrAdmin]
-        return [permission() for permission in permission_classes]
+    permission_classes = [MenuViewSetPermission]
 
     def list(self, request, *args, **kwargs):
         logger.info(
